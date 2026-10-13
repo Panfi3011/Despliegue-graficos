@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol DOM | Portafolio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 20px 12px;
+        }
+
+        header h1 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 14px;
+        }
+
+        .descripcion {
+            background: white;
+            padding: 15px 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .descripcion h2 {
+            font-size: 19px;
+            margin-top: 0;
+        }
+
+        .descripcion p {
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        button, .volver {
+            border: none;
+            border-radius: 6px;
+            background: #1d4ed8;
+            color: white;
+            padding: 9px 13px;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button:hover, .volver:hover {
+            background: #1e40af;
+        }
+
+        #estado {
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        /* Área del árbol */
+        .diagrama {
+            background: #0f172a;
+            padding: 25px 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+
+        .diagrama h2 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin: 0 0 25px;
+        }
+
+        /* Distribución jerárquica */
+        .arbol, .arbol ul {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            list-style: none;
+            padding: 22px 0 0;
+            margin: 0;
+        }
+
+        .arbol {
+            padding-top: 0;
+            width: max-content;
+            min-width: 100%;
+        }
+
+        .arbol ul {
+            padding-top: 25px;
+        }
+
+        .arbol li {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 5px;
+        }
+
+        /* Conectores verticales */
+        .arbol ul::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            height: 25px;
+            border-left: 1px solid #64748b;
+        }
+
+        /* Conectores horizontales */
+        .arbol li::before,
+        .arbol li::after {
+            content: "";
+            position: absolute;
+            top: -25px;
+            width: 50%;
+            height: 25px;
+            border-top: 1px solid #64748b;
+        }
+
+        .arbol li::before {
+            right: 50%;
+        }
+
+        .arbol li::after {
+            left: 50%;
+            border-left: 1px solid #64748b;
+        }
+
+        .arbol li:first-child::before {
+            border-top: none;
+        }
+
+        .arbol li:last-child::after {
+            border-top: none;
+        }
+
+        .arbol li:only-child::before,
+        .arbol li:only-child::after {
+            display: none;
+        }
+
+        .arbol li:only-child {
+            padding-top: 0;
+        }
+
+        /* Cajas pequeñas */
+        .nodo {
+            position: relative;
+            z-index: 1;
+            min-width: 80px;
+            max-width: 120px;
+            padding: 7px 8px;
+            border: 1.5px solid #22b8ef;
+            border-radius: 6px;
+            background: #1e293b;
+            color: #f1f5f9;
+            font-family: Consolas, monospace;
+            font-size: 11px;
+            overflow-wrap: anywhere;
+        }
+
+        .nodo strong {
+            display: block;
+            font-weight: bold;
+        }
+
+        .nodo small {
+            display: block;
+            margin-top: 3px;
+            color: #94a3b8;
+            font-size: 9px;
+        }
+
+        .nodo.raiz {
+            min-width: 95px;
+            background: #243449;
+            border-color: #38bdf8;
+        }
+
+        .nodo.estructural {
+            border-color: #22b8ef;
+        }
+
+        .nodo.contenido {
+            border-color: #818cf8;
+        }
+
+        .nodo.grafico {
+            border-color: #34d399;
+        }
+
+        .nota {
+            color: #cbd5e1;
+            font-size: 12px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding: 12px 7px;
+            }
+
+            .diagrama {
+                padding: 20px 10px;
+            }
+
+            .arbol li {
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+
+            .nodo {
+                min-width: 68px;
+                max-width: 100px;
+                padding: 6px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Árbol DOM del sitio web</h1>
+    <p>Representación gráfica de la estructura HTML</p>
+</header>
+
+<main>
+
+    <section class="descripcion">
+        <h2>Inspector del DOM</h2>
+        <p>
+            El DOM representa la estructura jerárquica de un documento HTML.
+            El elemento html es la raíz; head contiene metadatos y body
+            contiene el contenido visible de la página.
+        </p>
+    </section>
+
+    <div class="acciones">
+        <button id="actualizar">Actualizar árbol</button>
+        <a class="volver" href="index.html">Volver al portafolio</a>
+    </div>
+
+    <p id="estado" role="status">Generando árbol DOM...</p>
+
+    <section class="diagrama">
+        <h2>Jerarquía de etiquetas HTML</h2>
+        <div id="resultado"></div>
+
+        <p class="nota">
+            Las líneas conectan cada elemento con sus hijos.
+            Desplázate horizontalmente si necesitas ver más ramas.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    Portafolio de Dibujo Digital | Inspector DOM
+</footer>
+
+<script>
+    const resultado = document.getElementById("resultado");
+    const estado = document.getElementById("estado");
+    const boton = document.getElementById("actualizar");
+
+    // Etiquetas que se mostrarán en cada nivel.
+    const estructura = {
+        HTML: ["HEAD", "BODY"],
+        HEAD: ["TITLE", "META", "LINK"],
+        BODY: ["HEADER", "NAV", "MAIN", "FOOTER"],
+        MAIN: ["SECTION"],
+        SECTION: ["H1", "H2", "H3", "P", "DIV", "ARTICLE"],
+        DIV: ["CANVAS", "ARTICLE"],
+        ARTICLE: ["H3", "CANVAS", "P"]
+    };
+
+    function obtenerHijos(elemento) {
+        const permitidas = estructura[elemento.tagName];
+
+        if (!permitidas) {
+            return [];
+        }
+
+        return Array.from(elemento.children).filter(hijo =>
+            permitidas.includes(hijo.tagName)
+        );
+    }
+
+    function crearNodoVisual(elemento, nivel = 0) {
+        const li = document.createElement("li");
+        const caja = document.createElement("div");
+
+        caja.className = "nodo";
+
+        if (nivel === 0) {
+            caja.classList.add("raiz");
+        } else if (["HEAD", "BODY"].includes(elemento.tagName)) {
+            caja.classList.add("estructural");
+        } else if (elemento.tagName === "CANVAS") {
+            caja.classList.add("grafico");
+        } else {
+            caja.classList.add("contenido");
+        }
+
+        const etiqueta = document.createElement("strong");
+
+        etiqueta.textContent =
+            "<" + elemento.tagName.toLowerCase() + ">";
+
+        caja.appendChild(etiqueta);
+
+        if (elemento.id) {
+            const detalle = document.createElement("small");
+            detalle.textContent = 'id="' + elemento.id + '"';
+            caja.appendChild(detalle);
+        }
+
+        li.appendChild(caja);
+
+        const hijos = obtenerHijos(elemento);
+
+        if (hijos.length > 0) {
+            const lista = document.createElement("ul");
+
+            hijos.forEach(hijo => {
+                lista.appendChild(
+                    crearNodoVisual(hijo, nivel + 1)
+                );
+            });
+
+            li.appendChild(lista);
+        }
+
+        return li;
+    }
+
+    async function generarArbol() {
+        resultado.replaceChildren();
+        estado.textContent = "Leyendo index.html...";
+
+        try {
+            const respuesta = await fetch("index.html");
+
+            if (!respuesta.ok) {
+                throw new Error("No se pudo leer index.html.");
+            }
+
+            const codigoHTML = await respuesta.text();
+
+            const documento = new DOMParser().parseFromString(
+                codigoHTML,
+                "text/html"
+            );
+
+            const listaRaiz = document.createElement("ul");
+            listaRaiz.className = "arbol";
+
+            listaRaiz.appendChild(
+                crearNodoVisual(documento.documentElement)
+            );
+
+            resultado.appendChild(listaRaiz);
+
+            estado.textContent =
+                "Árbol DOM generado correctamente.";
+
+        } catch (error) {
+            estado.textContent =
+                "No se pudo leer index.html. Abre el proyecto con Live Server.";
+        }
+    }
+
+    boton.addEventListener("click", generarArbol);
+
+    generarArbol();
+</script>
+
+</body>
+</html>

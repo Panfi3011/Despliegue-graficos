@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Dibujo Digital</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <header>
+        <h1>Portafolio de Dibujo Digital</h1>
+        <p>Proyectos y animaciones con HTML, CSS y JavaScript</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#canvas">HTML Canvas</a>
+        <a href="#p5js">Librería p5.js</a>
+        <a href="#acerca">Acerca del proyecto</a>
+        <a href="dom-inspector.html">Árbol DOM</a>
+    </nav>
+
+    <main>
+        <section id="inicio" class="seccion">
+            <h2>Bienvenidos</h2>
+            <p>
+                Este sitio web presenta una colección de dibujos,
+                proyectos y animaciones realizados mediante programación.
+                El objetivo es mostrar cómo los trabajos desarrollados
+                en Khan Academy pueden adaptarse a tecnologías web
+                como HTML, CSS y JavaScript.
+            </p>
+        </section>
+
+        <section id="proyectos" class="seccion">
+            <h2>Mis proyectos y dibujos</h2>
+            <p>
+                En esta sección se mostrarán los dibujos y animaciones
+                desarrollados durante las prácticas de programación.
+            </p>
+
+
+            <div class="galeria">
+
+                <article class="tarjeta">
+                    <h3>Proyecto 1: Muñeco de Nieve</h3>
+                    <div id="muñeco"></div>
+                    <p>Dibujo geométrico creado con figuras y líneas.</p>
+                </article>
+
+                <article class="tarjeta">
+                    <h3>Proyecto 2: Rana</h3>
+                    <div id="rana"></div>
+                    <p>Dibujo realizado con elipses y rectángulos.</p>
+                </article>
+                
+                <article class="tarjeta">
+                    <h3>Proyecto 3: Dia Nevado Soleado</h3>
+                    <canvas id="paisaje" width="400" height="400"></canvas>
+                    <p>Paisaje creado con figuras geométricas, colores y círculos.</p>
+                </article>
+
+                <article class="tarjeta">
+                    <h3>Proyecto 4: Dientes de Conejo</h3>
+                    <canvas id="conejo" width="400" height="300"></canvas>
+                    <p>Dibujo de un personaje con elipses, líneas y rectángulos.</p>
+                </article>
+
+
+                <article class="tarjeta">
+                    <h3>Proyecto 5: ¿Que hay de cena?</h3>
+                    <canvas id="pizza" width="400" height="400"></canvas>
+                    <p>Dibujo realizado con círculos, triángulos y cuadriláteros.</p>
+                </article>
+
+            </div>
+
+
+        <section id="canvas" class="seccion">
+            <h2>¿Qué es HTML Canvas?</h2>
+
+            <p>
+                La etiqueta canvas de HTML permite crear un área
+                de dibujo dentro de una página web. Mediante JavaScript
+                se pueden dibujar líneas, figuras geométricas, textos
+                e imágenes.
+            </p>
+
+            <h3>Contexto de renderizado 2D</h3>
+
+            <p>
+                El método getContext("2d") obtiene el contexto que
+                permite realizar operaciones de dibujo en dos
+                dimensiones. Con él podemos cambiar colores, dibujar
+                rectángulos, crear círculos y trazar líneas.
+            </p>
+
+            <pre><code>const canvas = document.getElementById("miCanvas");
+const ctx = canvas.getContext("2d");
+
+ctx.fillStyle = "red";
+ctx.fillRect(20, 20, 100, 60);</code></pre>
+
+            <p>
+                En este ejemplo, fillStyle establece el color rojo
+                y fillRect dibuja un rectángulo. Los valores indican
+                la posición horizontal, la posición vertical, el ancho
+                y la altura.
+            </p>
+
+            <h3>Características de Canvas</h3>
+            <ul>
+                <li>Permite crear dibujos mediante instrucciones JavaScript.</li>
+                <li>Trabaja con coordenadas horizontales (X) y verticales (Y).</li>
+                <li>Puede utilizarse para animaciones y juegos.</li>
+                <li>Los dibujos se actualizan mediante nuevas instrucciones de código.</li>
+            </ul>
+        </section>
+
+        <section id="p5js" class="seccion">
+            <h2>Fundamentos de la librería p5.js</h2>
+
+            <p>
+                p5.js es una biblioteca de JavaScript que facilita
+                la creación de dibujos, animaciones e interacciones.
+                Está diseñada para trabajar de forma sencilla con
+                elementos visuales y programación creativa.
+            </p>
+
+            <h3>Funciones principales</h3>
+
+            <ul>
+                <li><strong>setup():</strong> se ejecuta al iniciar el programa y permite preparar el área de dibujo.</li>
+                <li><strong>draw():</strong> se ejecuta repetidamente para dibujar o actualizar la animación.</li>
+                <li><strong>createCanvas():</strong> crea el área de dibujo.</li>
+                <li><strong>background():</strong> establece el fondo.</li>
+                <li><strong>ellipse():</strong> dibuja una elipse o un círculo.</li>
+                <li><strong>rect():</strong> dibuja un rectángulo.</li>
+                <li><strong>fill():</strong> establece el color de relleno.</li>
+            </ul>
+
+            <h3>Ejemplo de código p5.js</h3>
+
+            <pre><code>function setup() {
+    createCanvas(300, 200);
+}
+
+function draw() {
+    background(230, 240, 255);
+    fill(220, 60, 60);
+    ellipse(150, 100, 80, 80);
+}</code></pre>
+
+            <p>
+                Este programa crea un área de dibujo, establece
+                un fondo azul claro y dibuja un círculo rojo.
+                La función draw permite actualizar el dibujo
+                continuamente, lo cual es útil para crear animaciones.
+            </p>
+        </section>
+
+        <section id="acerca" class="seccion">
+            <h2>Acerca del proyecto</h2>
+            <p>
+                Este portafolio tiene como finalidad demostrar
+                los conocimientos adquiridos en programación web,
+                dibujo digital y animación. También permite comprender
+                cómo se utilizan las herramientas de JavaScript para
+                desarrollar contenido gráfico interactivo.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Portafolio de Dibujo Digital | HTML, CSS y JavaScript</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
