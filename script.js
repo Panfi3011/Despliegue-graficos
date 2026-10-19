@@ -301,3 +301,156 @@ if (pizza) {
         ctxPizza.fill();
     });
 }
+
+
+/* =====================================================
+   PROYECTO 6: ATARDECER CON SOL CRECIENTE
+===================================================== */
+
+const atardecer = document.getElementById("atardecer");
+
+if (atardecer) {
+    const ctxAtardecer = atardecer.getContext("2d");
+    let sunSize = 30;
+
+    function dibujarAtardecer() {
+        ctxAtardecer.fillStyle = "rgb(82, 222, 240)";
+        ctxAtardecer.fillRect(0, 0, 400, 400);
+
+        // El sol queda parcialmente detrás del terreno.
+        ctxAtardecer.fillStyle = "rgb(255, 204, 0)";
+        ctxAtardecer.beginPath();
+        ctxAtardecer.arc(200, 298, sunSize / 2, 0, Math.PI * 2);
+        ctxAtardecer.fill();
+
+        ctxAtardecer.fillStyle = "rgb(76, 168, 67)";
+        ctxAtardecer.fillRect(0, 300, 400, 100);
+
+        sunSize += 1;
+        requestAnimationFrame(dibujarAtardecer);
+    }
+
+    dibujarAtardecer();
+}
+
+
+/* =====================================================
+   PROYECTO 7: SOL Y NUBES EN MOVIMIENTO
+===================================================== */
+
+const nubes = document.getElementById("nubes");
+
+if (nubes) {
+    const ctxNubes = nubes.getContext("2d");
+    let leftX = 145;
+    let rightX = 208;
+    let sunRadius = 100;
+
+    function dibujarNubes() {
+        ctxNubes.fillStyle = "rgb(184, 236, 255)";
+        ctxNubes.fillRect(0, 0, 400, 400);
+
+        ctxNubes.fillStyle = "rgb(255, 170, 0)";
+        ctxNubes.beginPath();
+        ctxNubes.arc(200, 100, sunRadius / 2, 0, Math.PI * 2);
+        ctxNubes.fill();
+
+        ctxNubes.fillStyle = "white";
+        // Nube izquierda
+        ctxNubes.beginPath();
+        ctxNubes.ellipse(leftX, 150, 63, 48.5, 0, 0, Math.PI * 2);
+        ctxNubes.ellipse(leftX + 62, 150, 35, 30, 0, 0, Math.PI * 2);
+        ctxNubes.ellipse(leftX - 62, 150, 35, 30, 0, 0, Math.PI * 2);
+        ctxNubes.fill();
+
+        // Nube derecha
+        ctxNubes.beginPath();
+        ctxNubes.ellipse(rightX, 100, 63, 48.5, 0, 0, Math.PI * 2);
+        ctxNubes.ellipse(rightX + 62, 100, 35, 30, 0, 0, Math.PI * 2);
+        ctxNubes.ellipse(rightX - 62, 100, 35, 30, 0, 0, Math.PI * 2);
+        ctxNubes.fill();
+
+        sunRadius += 2;
+        leftX -= 1;
+        rightX += 1;
+        requestAnimationFrame(dibujarNubes);
+    }
+
+    dibujarNubes();
+}
+
+
+/* =====================================================
+   PROYECTO 8: ESTRELLAS SOBRE LA CIUDAD
+===================================================== */
+
+const noche = document.getElementById("noche");
+
+if (noche) {
+    const ctxNoche = noche.getContext("2d");
+    let xPos = 0;
+    let yPos = 100;
+    let x2 = 400;
+    let y2 = 180;
+
+    function dibujarNoche() {
+        ctxNoche.fillStyle = "rgb(29, 40, 115)";
+        ctxNoche.fillRect(0, 0, 400, 400);
+
+        // Luna
+        ctxNoche.fillStyle = "rgb(255, 242, 0)";
+        ctxNoche.beginPath();
+        ctxNoche.arc(330, 60, 17.5, 0, Math.PI * 2);
+        ctxNoche.fill();
+
+        // Edificios
+        ctxNoche.fillStyle = "rgb(30, 30, 45)";
+        ctxNoche.fillRect(0, 340, 80, 160);
+        ctxNoche.fillRect(80, 290, 90, 210);
+        ctxNoche.fillRect(170, 360, 70, 140);
+        ctxNoche.fillRect(240, 310, 90, 190);
+        ctxNoche.fillRect(330, 350, 70, 150);
+
+        // Ventanas
+        ctxNoche.fillStyle = "rgb(255, 220, 90)";
+        [[20, 365], [50, 365], [100, 365], [135, 315], [260, 335], [295, 335]]
+            .forEach(function(posicion) {
+                ctxNoche.fillRect(posicion[0], posicion[1], 12, 15);
+            });
+
+        // Estrella amarilla con cola
+        ctxNoche.fillStyle = "rgb(255, 242, 0)";
+        ctxNoche.beginPath();
+        ctxNoche.arc(xPos, yPos, 10, 0, Math.PI * 2);
+        ctxNoche.fill();
+        ctxNoche.beginPath();
+        ctxNoche.moveTo(xPos - 30, yPos - 10);
+        ctxNoche.lineTo(xPos, yPos);
+        ctxNoche.strokeStyle = "rgb(255, 242, 0)";
+        ctxNoche.stroke();
+
+        // Estrella blanca
+        ctxNoche.fillStyle = "white";
+        ctxNoche.beginPath();
+        ctxNoche.arc(x2, y2, 5, 0, Math.PI * 2);
+        ctxNoche.fill();
+
+        xPos += 4;
+        yPos += 1;
+        x2 -= 3;
+        y2 += 1;
+
+        if (xPos > 420) {
+            xPos = -20;
+            yPos = 100;
+        }
+        if (x2 < -10) {
+            x2 = 420;
+            y2 = 180;
+        }
+
+        requestAnimationFrame(dibujarNoche);
+    }
+
+    dibujarNoche();
+}
